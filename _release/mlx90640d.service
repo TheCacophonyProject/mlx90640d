@@ -1,0 +1,16 @@
+[Unit]
+Description=MLX90640 Interface Daemon
+After=multi-user.target thermal-recorder.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mlx90640d
+Restart=on-failure
+RestartSec=5s
+
+# Give real-time priority
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=99
+
+[Install]
+WantedBy=multi-user.target

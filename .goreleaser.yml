@@ -1,0 +1,37 @@
+project_name: mlx90640d
+dist: dist
+
+release:
+  github:
+    owner: TheCacophonyProject
+    name: mlx90640d
+  name_template: '{{.Tag}}'
+
+builds:
+- goos:
+  - linux
+  goarch:
+  - arm
+  goarm:
+  - "7"
+  main: ./cmd/mlx90640d
+  ldflags: -s -w -X main.version={{.Version}}
+  binary: mlx90640d
+
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
+
+nfpms:
+- vendor: The Cacophony Project
+  homepage: http://cacophony.org.nz/
+  maintainer: Cacophony Developers <coredev@cacophony.org.nz>
+  description: Reads frames from a thermal mlx90640 sensor
+  license: GPL v3.0
+  file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+  formats:
+    - deb
+  bindir: /usr/bin
+  files:
+    "_release/mlx90640d.service": "/etc/systemd/system/mlx90640d.service"
+  scripts:
+        postinstall: "_release/postinstall.sh"
